@@ -8,7 +8,7 @@ services:
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         external_url 'http://gitlab.com:9090'
-        registry_external_url 'http://registry.com:5000'
+        registry_external_url 'http://registry.com:5005'
         gitlab_rails['gitlab_shell_ssh_port'] = 2224
     ports:
       - '9090:9090'
@@ -32,13 +32,12 @@ services:
     container_name: gitlab-registry
     restart: always
     environment:
-      REGISTRY_HTTP_SECRET: fudouw6pliv0p
       REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /var/lib/registry
       REGISTRY_AUTH: htpasswd
       REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
       REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
     ports:
-      - '5000:5000'
+      - '5005:5000'
     volumes:
       - '/srv/gitlab-registry/data:/var/lib/registry'
       - '${PWD}/auth:/auth'
