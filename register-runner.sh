@@ -11,4 +11,4 @@ docker exec -it gitlab-runner gitlab-runner register -n \
   --executor docker \
   --description "Docker Runner" \
   --docker-image "docker:latest" \
-  --docker-privileged
+  --docker-volumes /var/run/docker.sock:/var/run/docker.sock
