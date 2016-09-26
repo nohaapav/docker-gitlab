@@ -3,9 +3,12 @@ image: docker:latest
 stages:
 - build
 - release
+- pre_deploy
+- deploy
+- post_deploy
 
 variables:
-  CONTAINER_IMAGE: $REGISTRY_URL/test/manager:$CI_BUILD_REF_NAME
+  CONTAINER_IMAGE: $REGISTRY_URL/test/manager:latest
   
 before_script:
 - echo $CI_BUILD_REF_NAME
@@ -17,9 +20,33 @@ build:
   artifacts:
     paths:
       - target/test-manager.war
+
 release:
   stage: release
   script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $REGISTRY_URL
     - docker build -t $CONTAINER_IMAGE .
     - docker push $CONTAINER_IMAGE
+  only:
+    - master
+    
+pre_deploy:
+  stage: pre_deploy
+  script:
+    - docker ps -qf name=manager | xargs docker stop
+    - docker ps -aqf name=manager | xargs docker rm -f
+  allow_failure: true
+
+deploy:
+  stage: deploy
+  script:
+    - docker pull $CONTAINER_IMAGE
+    - docker run -d --name manager $CONTAINER_IMAGE
+  only:
+    - master
+    
+post_deploy:
+  stage: post_deploy
+  script:
+    - docker images -qf dangling=true | xargs docker rmi -f
+  allow_failure: true
