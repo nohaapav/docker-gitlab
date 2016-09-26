@@ -1,9 +1,16 @@
 # docker-gitlab
 Gitlab CI docker setup 
 
+## Prerequisites 
+
+* docker
+* docker-compose
+
 ## Setup
 
-... to be continued
+1. Run ``docker-compose pull``
+2. Run ``docker-compose up -d``
+3. Run ``./register-runner.sh`` script to register runner in gitlab ci
 
 ## Troubleshooting
 ### Runner
