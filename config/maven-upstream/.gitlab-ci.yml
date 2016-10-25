@@ -1,0 +1,27 @@
+image: docker:latest
+
+stages:
+- fetch
+- build
+
+before_script:
+- echo $CI_PROJECT_ID
+- echo $CI_BUILD_REF_NAME
+
+fetch:
+  image: nohaapav/git:latest
+  stage: fetch
+  script:
+    - sh .gitlab-upstream.sh $UPSTREAM_URL $ORIGIN_URL
+    - git checkout master
+    - git fetch upstream
+    - git merge upstream/master
+    - git push origin master
+
+build:
+  image: maven:3-jdk-8
+  stage: build
+  script: mvn install -B
+  artifacts:
+    paths:
+      - target/test-manager.war
