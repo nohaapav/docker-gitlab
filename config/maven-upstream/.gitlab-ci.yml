@@ -17,6 +17,8 @@ fetch:
     - git fetch upstream
     - git merge upstream/master
     - git push origin master
+  only:
+    - triggers
 
 build:
   image: maven:3-jdk-8
@@ -25,3 +27,5 @@ build:
   artifacts:
     paths:
       - target/test-manager.war
+  except:
+    - triggers

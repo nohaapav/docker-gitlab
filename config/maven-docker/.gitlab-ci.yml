@@ -27,8 +27,6 @@ release:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $REGISTRY_URL
     - docker build -t $CONTAINER_IMAGE .
     - docker push $CONTAINER_IMAGE
-  only:
-    - master
     
 pre_deploy:
   stage: pre_deploy
@@ -42,8 +40,6 @@ deploy:
   script:
     - docker pull $CONTAINER_IMAGE
     - docker run -d --name manager $CONTAINER_IMAGE
-  only:
-    - master
     
 post_deploy:
   stage: post_deploy
