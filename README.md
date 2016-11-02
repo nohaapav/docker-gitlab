@@ -12,6 +12,13 @@ Gitlab CI docker setup
 2. Run ``docker-compose up -d``
 3. Run ``./register-runner.sh`` script to register runner in gitlab ci
 
+## Configuration
+### Maven
+
+#### Repository cache
+
+To cache maven repository update ``config.toml`` [[runners.docker]] section and put ``root/.m2`` into existing volumes e.g. ``volumes = ["/cache","/root/m2:/root/.m2"]``
+
 ## Troubleshooting
 ### Runner
 
@@ -27,10 +34,6 @@ or
 fatal: unable to access 'http://gitlab-ci-token:xxxxxxxxxxxxxxxxxxxx@host.com:9090/user/repository.git/': Failed to connect to host.com port 9090: Operation timed out
 ```
 update ``config.toml`` [[runners.docker]] section with ``extra_hosts = ["host:192.168.99.100"]`` pointing to your gitlab host address.
-
-#### Maven cache
-
-To cache maven repository update ``config.toml`` [[runners.docker]] section and put ``root/.m2`` into existing volumes e.g. ``volumes = ["/cache","/root/m2:/root/.m2"]``
 
 #### Priviledged
 
