@@ -19,6 +19,12 @@ Gitlab CI docker setup
 
 To cache maven repository update ``config.toml`` [[runners.docker]] section and put ``root/.m2`` into existing volumes e.g. ``volumes = ["/cache","/root/m2:/root/.m2"]``
 
+### Swarm
+
+#### Deployment
+
+To setup deployment copy appropriate manager machine certificates to machine hosting gitlab-runner and then setup the volumes e.g. ``volumes = ["/cache","/home/swarm/certs:/home/swarm/certs"]`` . Then setup MANAGER_CERTS_PATH variable pointing to this location to tell runner where to find certificates. Manager node ip must be specified as well in MANAGER_IP variable.
+
 ## Troubleshooting
 ### Runner
 
