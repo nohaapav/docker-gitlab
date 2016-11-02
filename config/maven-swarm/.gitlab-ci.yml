@@ -1,0 +1,37 @@
+image: docker:latest
+
+stages:
+- build
+- release
+- deploy
+
+variables:
+  CONTAINER_IMAGE: $REGISTRY_URL/root/manager:$CI_BUILD_REF
+  
+before_script:
+- echo $CI_BUILD_REF_NAME
+- echo $CI_BUILD_REF
+
+build:
+  image: maven:3-jdk-8
+  stage: build
+  script: mvn install -B
+  artifacts:
+    paths:
+      - target/test-manager.war
+
+release:
+  stage: release
+  script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $REGISTRY_URL
+    - docker build -t $CONTAINER_IMAGE .
+    - docker push $CONTAINER_IMAGE
+
+deploy:
+  stage: deploy
+  script:
+    - docker --tls
+             --tlscacert=$MANAGER_CERTS_PATH/ca.pem 
+             --tlscert=$MANAGER_CERTS_PATH/cert.pem
+             --tlskey=$MANAGER_CERTS_PATH/key.pem
+             -H=tcp://$MANAGER_IP:2376 service update manager --image $CONTAINER_IMAGE
