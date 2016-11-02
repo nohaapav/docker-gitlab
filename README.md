@@ -28,6 +28,10 @@ fatal: unable to access 'http://gitlab-ci-token:xxxxxxxxxxxxxxxxxxxx@host.com:90
 ```
 update ``config.toml`` [[runners.docker]] section with ``extra_hosts = ["host:192.168.99.100"]`` pointing to your gitlab host address.
 
+#### Maven cache
+
+To cache maven repository update ``config.toml`` [[runners.docker]] section and put ``root/.m2`` into existing volumes e.g. ``volumes = ["/cache","/root/m2:/root/.m2"]``
+
 #### Priviledged
 
 If you're using dind as service and getting following warning:
