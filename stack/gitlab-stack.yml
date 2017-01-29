@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://${GITLAB_URL}'
+        registry_external_url 'http://${REGISTRY_URL}'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2222
+        gitlab_rails['registry_enabled'] = true
+    ports:
+      - '80:80'
+      - '443:443'
+      - '2222:22'
+    volumes:
+      - gitlab-conf:/etc/gitlab
+      - gitlab-logs:/var/log/gitlab
+      - gitlab-data:/var/opt/gitlab
+    networks:
+      - bnet
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
+networks:
+  bnet:
+    driver: overlay
+
+volumes:
+  gitlab-conf:
+  gitlab-logs:
+  gitlab-data:
