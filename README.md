@@ -1,16 +1,15 @@
 # docker-gitlab
-Gitlab CI docker setup 
+Gitlab CI docker swarm mode setup 
 
 ## Prerequisites 
 
-* docker
-* docker-compose
+* docker 1.13 +
 
 ## Setup
 
-1. Run ``docker-compose pull``
-2. Run ``docker-compose up -d``
-3. Run ``./register-runner.sh`` script to register runner in gitlab ci
+1. Run ``install-gitlab.sh`` and enter gitlab & registry host
+2. Wait 'till gitlab is up and running and go to gitlab admin area -> runners section and copy the registration token
+2. Run ``install-gitlab-runner.sh`` and enter registration token 
 
 ## Configuration
 ### Maven
