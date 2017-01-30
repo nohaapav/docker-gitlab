@@ -4,7 +4,7 @@ services:
   gitlab-runner:
     image: nohaapav/docker-gitlab-runner:latest
     environment:
-      - GITLAB_SERVICE_URL=http://ci_gitlab
+      - GITLAB_SERVICE_URL=${GITLAB_SERVICE_URL}
       - GITLAB_RUNNER_TOKEN=${GITLAB_RUNNER_TOKEN}
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock'
