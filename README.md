@@ -14,4 +14,4 @@ Gitlab CI docker swarm mode setup
 ## Support
 
 * Runners are automatically registered/unregistered in gitlab on docker (run/stop) / docker service (create/rm)
-* When new worker node spawned -> new runner is created automatically and register within gitlab
+* When new worker node spawned -> new runner is created automatically and registered within gitlab
