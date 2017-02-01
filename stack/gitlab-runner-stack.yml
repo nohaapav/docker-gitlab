@@ -4,18 +4,19 @@ services:
   gitlab-runner:
     image: nohaapav/docker-gitlab-runner:latest
     environment:
-      - GITLAB_SERVICE_URL=${GITLAB_SERVICE_URL}
+      - GITLAB_HOST=${GITLAB_HOST}
+      - GITLAB_IP=${GITLAB_IP}
       - GITLAB_RUNNER_TOKEN=${GITLAB_RUNNER_TOKEN}
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock'
     networks:
-      - bnet
+      - net
     deploy:
       mode: global
       placement:
         constraints: [node.role == worker]
 
 networks:
-  bnet:
+  net:
     external:
-      name: ci_bnet
+      name: ci_net

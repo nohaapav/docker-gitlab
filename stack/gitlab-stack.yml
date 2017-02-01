@@ -5,8 +5,8 @@ services:
     image: gitlab/gitlab-ce:latest
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'http://${GITLAB_URL}'
-        registry_external_url 'http://${REGISTRY_URL}'
+        external_url '${GITLAB_URL}'
+        registry_external_url '${REGISTRY_URL}'
         gitlab_rails['gitlab_shell_ssh_port'] = 2222
         gitlab_rails['registry_enabled'] = true
     ports:
@@ -18,13 +18,13 @@ services:
       - gitlab-logs:/var/log/gitlab
       - gitlab-data:/var/opt/gitlab
     networks:
-      - bnet
+      - net
     deploy:
       placement:
         constraints: [node.role == manager]
 
 networks:
-  bnet:
+  net:
     driver: overlay
 
 volumes:
